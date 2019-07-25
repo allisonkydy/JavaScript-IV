@@ -9,46 +9,46 @@ Prototype Refactor
 */
 
 // Game Object Constructor
-function GameObject(attr) {
-    this.createdAt = attr.createdAt;
-    this.name = attr.name;
-    this.dimensions = attr.dimensions;
-  }
-  
-  GameObject.prototype.destroy = function() {
-    return `${this.name} was removed from the game.`;
-  }
-  
+class GameObject {
+    constructor(attr) {
+        this.createdAt = attr.createdAt;
+        this.name = attr.name;
+        this.dimensions = attr.dimensions;
+    }
+    
+    destroy() {
+        return `${this.name} was removed from the game.`;
+    }
+  }  
   
   // Character Stats Constructor
-  function CharacterStats(attr) {
-    GameObject.call(this, attr);
-    this.healthPoints = attr.healthPoints;
+  class CharacterStats extends GameObject {
+      constructor(attr) {
+          super(attr);
+          this.healthPoints = attr.healthPoints;
+      }
+    
+    takeDamage() {
+        return `${this.name} took damage.`;
+    }
   }
-  
-  CharacterStats.prototype = Object.create(GameObject.prototype);
-  
-  CharacterStats.prototype.takeDamage = function() {
-    return `${this.name} took damage.`
-  }
-  
   
   // Humanoid Constructor
-  function Humanoid(attr) {
-    CharacterStats.call(this, attr);
-    this.team = attr.team;
-    this.weapons = attr.weapons;
-    this.language = attr.language;
-  }
-  
-  Humanoid.prototype = Object.create(CharacterStats.prototype);
-  
-  Humanoid.prototype.greet = function() {
-    return `${this.name} offers a greeting in ${this.language}`;
-  }
-  
-  Humanoid.prototype.attack = function(target) {
-    return `${this.name} attacked ${target.name} with his ${this.weapons[(Math.floor(Math.random() * this.weapons.length))]}!`;
+  class Humanoid extends CharacterStats {
+    constructor(attr) {
+        super(attr);
+        this.team = attr.team;
+        this.weapons = attr.weapons;
+        this.language = attr.language;
+    }
+    
+    greet() {
+        return `${this.name} offers a greeting in ${this.language}`;
+    }
+
+    attack(target) {
+        return `${this.name} attacked ${target.name} with his ${this.weapons[(Math.floor(Math.random() * this.weapons.length))]}!`;
+    }
   }
   
   // Test you work by un-commenting these 3 objects and the list of console logs below:
@@ -123,38 +123,39 @@ function GameObject(attr) {
   
   
   // Villian Constructor
-  function Villian(attr) {
-    Humanoid.call(this, attr);
+  class Villian extends Humanoid {
+    constructor(attr) {
+        super(attr);
+    }
+
+    removeHealth() {
+        this.healthPoints -= 5;
+        if (this.healthPoints <= 0) return `${this.takeDamage()} ${this.destroy()}`;
+        else return `${this.takeDamage()} ${this.healthPoints} HP remaining.`;
+    }
   }
-  
-  Villian.prototype = Object.create(Humanoid.prototype);
-  
-  Villian.prototype.removeHealth = function() {
-    this.healthPoints -= 5;
-    if (this.healthPoints <= 0) return `${this.takeDamage()} ${this.destroy()}`;
-    else return `${this.takeDamage()} ${this.healthPoints} HP remaining.`;
-  }
-  
+
   // Hero Constructor
-  function Hero(attr) {
-    Humanoid.call(this, attr);
-    this.healthItems = attr.healthItems;
-    this.maxHealth = attr.maxHealth;
+  class Hero extends Humanoid {
+    constructor(attr) {
+        super(attr);
+        this.healthItems = attr.healthItems;
+        this.maxHealth = attr.maxHealth;
+    }
+
+    removeHealth() {
+        this.healthPoints -= 2;
+        if (this.healthPoints <= 0) return `${this.takeDamage()} ${this.destroy()}`;
+        else return `${this.takeDamage()} ${this.healthPoints} HP remaining.`;
+    }
+
+    heal() {
+        this.healthPoints = this.maxHealth;
+        this.healthItems -= 1;
+        return `${this.name} drinks a potion. Health maxed out!`;
+    }
   }
   
-  Hero.prototype = Object.create(Humanoid.prototype);
-  
-  Hero.prototype.removeHealth = function() {
-    this.healthPoints -= 2;
-    if (this.healthPoints <= 0) return `${this.takeDamage()} ${this.destroy()}`;
-    else return `${this.takeDamage()} ${this.healthPoints} HP remaining.`;
-  }
-  
-  Hero.prototype.heal = function() {
-      this.healthPoints = this.maxHealth;
-      this.healthItems -= 1;
-      return `${this.name} drinks a potion. Health maxed out!`;
-  }
   
   const ganon = new Villian({
     createdAt: new Date(),
