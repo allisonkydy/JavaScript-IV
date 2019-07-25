@@ -20,7 +20,7 @@ class Instructor extends Person {
     }
 
     demo(subject) {
-        console.log(`Today we are learning about ${subject}`);
+        console.log(`Today we are learning about ${subject}.`);
     }
 
     grade(student, subject) {
@@ -63,6 +63,92 @@ class ProjectManager extends Instructor {
     }
 
     debugsCode(student, subject) {
-        console.log(`${this.name} debugs ${student.name}'s code on ${subject}`);
+        console.log(`${this.name} debugs ${student.name}'s code on ${subject}.`);
     }
 }
+
+// Instructors
+
+const velma = new Instructor({
+    name: 'Velma',
+    location: 'City Town',
+    age: 32,
+    specialty: 'Science',
+    favLanguage: 'Python',
+    catchPhrase: 'Jinkies!',
+});
+
+const fred = new Instructor({
+    name: 'Fred',
+    location: 'City Town',
+    age: 37,
+    specialty: 'Traps',
+    favLanguage: 'JavaScript',
+    catchPhrase: 'Let\'s go, gang!',
+})
+
+// console.log(velma.catchPhrase);
+// console.log(fred.name);
+// velma.speak();
+// velma.demo('CSS');
+// fred.grade('Shaggy', 'JavaScript Arrays');
+
+// Students
+
+const daphne = new Student({
+    name: 'Daphne',
+    location: 'City Town',
+    age: 28,
+    previousBackground: 'Hairstylist',
+    className: 'WEB22',
+    favSubjects: ['HTML', 'CSS', 'JavaScript'],
+});
+
+const shaggy = new Student({
+    name: 'Shaggy',
+    location: 'City Town',
+    age: 26,
+    previousBackground: 'Unemployed',
+    className: 'UX13',
+    favSubjects: ['Responsive Design', 'Accessibility', 'Typography'],
+});
+
+// console.log(daphne.location);
+// console.log(shaggy.previousBackground);
+// shaggy.speak();
+// daphne.listsSubjects();
+// daphne.PRAssignment('CSS');
+// shaggy.sprintChallenge('UX Fundamentals');
+
+// Project Managers
+
+const scoobyDoo = new ProjectManager ({
+    name: 'Scooby-Doo',
+    location: 'City Town',
+    age: 'unknown',
+    specialty: 'Eating',
+    favLanguage: 'React',
+    catchPhrase: 'Scooby-dooby-doo!',
+    gradClassName: 'WEB14',
+    favInstructor: 'Fred',
+});
+
+const scrappyDoo = new ProjectManager ({
+    name: 'Scrappy-Doo',
+    location: 'City Town',
+    age: 'unknown',
+    specialty: 'Fighting',
+    favLanguage: 'Python',
+    catchPhrase: 'Let me at \'em!',
+    gradClassName: 'DS1',
+    favInstructor: 'Velma',
+})
+
+// console.log(scoobyDoo.specialty);
+// console.log(scoobyDoo.name);
+// console.log(scrappyDoo.catchPhrase);
+// console.log(scrappyDoo.favInstructor);
+// scoobyDoo.speak();
+// scoobyDoo.demo('HTML');
+// scrappyDoo.standUp('ds_scrappy');
+// scoobyDoo.debugsCode(daphne, 'JavaScript');
