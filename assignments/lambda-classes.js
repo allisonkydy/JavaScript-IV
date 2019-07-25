@@ -26,6 +26,15 @@ class Instructor extends Person {
     grade(student, subject) {
         console.log(`${student} receives a perfect score on ${subject}.`);
     }
+
+    changeGrade(student) {
+        const randomGrade = Math.ceil(Math.random() * 5);
+        const isAdd = Math.floor(Math.random() * 2);
+
+        isAdd ? student.grade += randomGrade : student.grade -= randomGrade;   
+        
+        if (student.grade < 0) student.grade = 0;
+    }
 }
 
 class Student extends Person {
@@ -34,6 +43,7 @@ class Student extends Person {
         this.previousBackground = attr.previousBackground;
         this.className = attr.className;
         this.favSubjects = attr.favSubjects;
+        this.grade = attr.grade;
     }
 
     listsSubjects() {
@@ -48,6 +58,23 @@ class Student extends Person {
 
     sprintChallenge(subject) {
         console.log(`${this.name} has begun sprint challenge on ${subject}.`)
+    }
+
+    graduate() {
+        if (this.grade > 70) {
+            console.log(`${this.name} is ready to graduate!`);
+            return true;
+        } else {
+            console.log(`${this.name} is not ready to graduate. ${this.name}'s current grade is ${this.grade}.`);
+            return false;
+        }
+    }
+
+    submitAssignment(instructor) {
+        while(true) {
+            if (this.graduate() === true) return;
+            instructor.changeGrade(this);
+        }
     }
 }
 
@@ -102,6 +129,7 @@ const daphne = new Student({
     previousBackground: 'Hairstylist',
     className: 'WEB22',
     favSubjects: ['HTML', 'CSS', 'JavaScript'],
+    grade: 87,
 });
 
 const shaggy = new Student({
@@ -111,6 +139,7 @@ const shaggy = new Student({
     previousBackground: 'Unemployed',
     className: 'UX13',
     favSubjects: ['Responsive Design', 'Accessibility', 'Typography'],
+    grade: 68,
 });
 
 // console.log(daphne.location);
@@ -152,3 +181,7 @@ const scrappyDoo = new ProjectManager ({
 // scoobyDoo.demo('HTML');
 // scrappyDoo.standUp('ds_scrappy');
 // scoobyDoo.debugsCode(daphne, 'JavaScript');
+
+// daphne.submitAssignment(velma);
+shaggy.submitAssignment(velma);
+
